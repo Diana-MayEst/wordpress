@@ -1,0 +1,26 @@
+services:
+  # Servicio de WordPress (usando Dockerfile personalizado)
+  - type: web
+    name: wordpress
+    env: docker
+    dockerfilePath: ./Dockerfile # Ruta al Dockerfile de WordPress
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: WORDPRESS_DB_HOST
+        value: db:3306 # Conexión a la base de datos
+      - key: WORDPRESS_DB_NAME
+        value: wordpress
+      - key: WORDPRESS_DB_USER
+        value: wordpress_user
+      - key: WORDPRESS_DB_PASSWORD
+        value: example_password
+
+  # Servicio de Base de Datos MySQL (usando un servicio gestionado)
+  - type: database
+    name: mysql
+    env: mysql
+    plan: free
+    databaseName: wordpress
+    user: wordpress_user
+    password: example_password
